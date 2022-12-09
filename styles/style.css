@@ -23,7 +23,7 @@ body{
 header{
     height: 50%;
     
-    padding: 100px 300px;
+    padding: 100px 50px;
     
     display: flex;
     flex-direction: column;
@@ -35,7 +35,8 @@ header{
 }
 
 #div-title{
-    line-height: 20px;
+    width: 100%;
+    line-height: 30px;
     margin-bottom: 40px;
 }
 
@@ -50,8 +51,8 @@ header{
 }
 
 #div-task-field{
-    display: flex;
     width: 100%;
+    display: flex;
 }
 
 #div-task-field input[type="text"]{
@@ -74,19 +75,30 @@ header{
     font-size: 27px;
     padding: 8px 16px;
     
+    transition: 0.2s;
+
     border: none;
     border-radius: 0px 20px 20px 0px;
     background-color: var(--light-white);
     color: var(--blue1);
+
+    cursor: pointer;
+}
+
+#div-task-field input[type="submit"]:hover{
+    background-color: var(--blue1);
+    color: var(--light-white);
 }
 
 main{
-    padding: 40px 400px;
+    padding: 40px 160px;
 }
 
 li{
     display: flex;
     margin-bottom: 20px;
+
+    list-style: none;
 
     background-color: transparent;
     box-shadow: 2px 2px 10px var(--gray);
@@ -102,6 +114,7 @@ li span{
 li input[type="checkbox"]{
     width: 15px;
     margin: auto;
+    cursor: pointer;
 }
 
 li h3{
@@ -109,6 +122,8 @@ li h3{
 
     font-size: 18px;
     font-weight: 300;
+
+    word-wrap: break-word;
 
     margin: auto;
     padding: 8px 16px;
@@ -122,9 +137,19 @@ li input[type="submit"]{
     border: none;
     background-color: transparent;
 
-    background-image: url("images/trash.svg");
+    transition: 0.2s;
+
+    border-radius: 0px 20px 20px 0px;
+
+    background-image: url("/images/trash_gray.svg");
     background-position: center;
     background-repeat: no-repeat;
+
+    cursor: pointer;
+}
+
+li input[type="submit"]:hover{
+    background-image: url(/images/trash_red.svg);
 }
 
 .finished-task{

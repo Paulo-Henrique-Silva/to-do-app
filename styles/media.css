@@ -1,0 +1,10 @@
+/* Applies mobile design */
+@media screen and (max-width: 768px){
+    header{
+        padding: 100px 25px;
+    }
+
+    main{
+        padding: 40px 80px;
+    }
+}
