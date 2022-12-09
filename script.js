@@ -10,11 +10,28 @@ inputTask.addEventListener("keypress", event => {
 
 //add new task
 btnAdd.addEventListener("click", () => {
-    const newTask = document.createElement("li");
-    
-    newTask.textContent = inputTask.value;
-    ulTodo.append(newTask);
+    if (inputTask.value != "")
+    {
+        const newTask = document.createElement("li");
 
-    inputTask.value = "";
-    inputTask.focus();
+        const taskSpan = document.createElement("span");
+        const h3Task = document.createElement("h3");
+        const btnTask = document.createElement("input");
+        const inputCheckSpan = document.createElement("input");
+
+        inputCheckSpan.type = "checkbox";
+        taskSpan.append(inputCheckSpan);
+        h3Task.textContent = inputTask.value;
+        btnTask.type = "submit";
+        btnTask.value = "del";
+        
+        newTask.append(taskSpan);
+        newTask.append(h3Task);
+        newTask.append(btnTask);
+
+        ulTodo.append(newTask);
+
+        inputTask.value = "";
+        inputTask.focus();
+    }
 });

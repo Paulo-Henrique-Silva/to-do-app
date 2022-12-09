@@ -7,3 +7,29 @@
 body{
     font-family: 'Open Sans', sans-serif;
 }
+
+li{
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+
+    background-color: rgb(90, 141, 141);
+}
+
+li span{
+    display: flex;
+    width: 10%;
+}
+
+li input[type="checkbox"]{
+    width: 15px;
+    margin: auto;
+}
+
+li h3{
+    width: 80%;
+}
+
+li input[type="submit"]{
+    width: 10%;
+}
