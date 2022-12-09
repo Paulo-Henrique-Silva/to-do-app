@@ -33,3 +33,7 @@ li h3{
 li input[type="submit"]{
     width: 10%;
 }
+
+.finished-task{
+    text-decoration: line-through;
+}

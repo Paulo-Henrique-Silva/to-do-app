@@ -25,11 +25,30 @@ btnAdd.addEventListener("click", () => {
         btnTask.type = "submit";
         btnTask.value = "del";
         
+        //if a task is marked as completed
+        inputCheckSpan.addEventListener("change", () => {
+            if (inputCheckSpan.checked)
+            {
+                h3Task.className = "finished-task";
+                ulTodo.append(newTask);
+            }
+            else
+            {
+                h3Task.className = "";
+                ulTodo.prepend(newTask);
+            }
+
+        });
+
+        btnTask.addEventListener("click", () => {
+            newTask.innerHTML = "";
+        });
+
         newTask.append(taskSpan);
         newTask.append(h3Task);
         newTask.append(btnTask);
 
-        ulTodo.append(newTask);
+        ulTodo.prepend(newTask);
 
         inputTask.value = "";
         inputTask.focus();
