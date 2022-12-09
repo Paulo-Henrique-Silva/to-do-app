@@ -141,7 +141,7 @@ li input[type="submit"]{
 
     border-radius: 0px 20px 20px 0px;
 
-    background-image: url("../images/trash_gray.svg");
+    background-image: url("../../images/trash_gray.svg");
     background-position: center;
     background-repeat: no-repeat;
 
@@ -149,7 +149,7 @@ li input[type="submit"]{
 }
 
 li input[type="submit"]:hover{
-    background-image: url("../images/trash_red.svg");
+    background-image: url("../../images/trash_red.svg");
 }
 
 .finished-task{
