@@ -23,7 +23,7 @@ btnAdd.addEventListener("click", () => {
         taskSpan.append(inputCheckSpan);
         h3Task.textContent = inputTask.value;
         btnTask.type = "submit";
-        btnTask.value = "del";
+        btnTask.value = "";
         
         //if a task is marked as completed
         inputCheckSpan.addEventListener("change", () => {
@@ -40,10 +40,13 @@ btnAdd.addEventListener("click", () => {
 
         });
 
+        //remove a certain task from list. If the innertHtml is deleted, therefore all the contente disappers.
         btnTask.addEventListener("click", () => {
             newTask.innerHTML = "";
+            newTask.style.display = "none";
         });
 
+        //appends elements of task
         newTask.append(taskSpan);
         newTask.append(h3Task);
         newTask.append(btnTask);
