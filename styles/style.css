@@ -103,6 +103,7 @@ li{
     display: flex;
 
     margin-bottom: 20px;
+    padding: 8px 16px;
 
     list-style: none;
 
@@ -132,7 +133,6 @@ li h3{
     word-wrap: break-word;
 
     margin: auto;
-    padding: 8px 16px;
 
     color: var(--light-black);
 }

@@ -1,7 +1,11 @@
-/* Applies mobile design */
+/*tablet design*/
 @media screen and (max-width: 768px){
     header{
         padding: 100px 25px;
+    }
+
+    #div-task-field input[type="submit"]{
+        padding: 4px 8px;
     }
 
     main{
@@ -9,9 +13,14 @@
     }
 }
 
+/*mobile design*/
 @media screen and (max-width: 384px){
     header{
         padding: 100px 12.5px;
+    }
+
+    #div-task-field input[type="submit"]{
+        padding: 2px 4px;
     }
 
     main{

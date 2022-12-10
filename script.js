@@ -25,19 +25,33 @@ else
 }
 
 //fires button event when user press enter in input task field
-inputTask.addEventListener("keypress", event => {
+inputTask.addEventListener("keyup", event => {
+    //removes @ to avoid conflicts
+    inputTask.value = inputTask.value.replaceAll("@", "");
+
     if (event.key == "Enter")
         btnAddTask.click();
 });
 
 //add new task
-btnAddTask.addEventListener("click", createTask);
+btnAddTask.addEventListener("click", () => {
+    //if there is a duplicated task
+    if (tasks.includes(inputTask.value))
+    {
+        alert("It's not possible to insert a duplicated task!");
+
+        inputTask.value = "";
+        inputTask.focus();
+    }
+    else
+        createTask();
+});
 
 function createTask()
 {
     //trims user input.
     inputTask.value = String(inputTask.value).trim();
-
+    
     if (inputTask.value != "")
     {
         const newTask = document.createElement("li");
@@ -175,6 +189,7 @@ function createTask()
         inputTask.value = "";
         inputTask.focus();
     }
+    
 }
 
 //creates a cookie with no expire date
