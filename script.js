@@ -2,6 +2,18 @@ const inputTask = document.querySelector("#ipt-task");
 const btnAdd = document.querySelector("#btn-add");
 const ulTodo = document.querySelector("#ul-todo");
 
+let tasks;
+
+if (getCookieValue("tasks") == null)
+{
+    tasks = "";
+    createCookie("tasks", "");
+}
+else
+    tasks = getCookieValue("tasks").split("@");
+
+console.log(document.cookie);
+
 //fires button event when user press enter in input task field
 inputTask.addEventListener("keypress", event => {
     if (event.key == "Enter")
@@ -37,7 +49,6 @@ btnAdd.addEventListener("click", () => {
                 h3Task.className = "";
                 ulTodo.prepend(newTask);
             }
-
         });
 
         //remove a certain task from list. If the innertHtml is deleted, therefore all the contente disappers.
@@ -57,3 +68,35 @@ btnAdd.addEventListener("click", () => {
         inputTask.focus();
     }
 });
+
+//creates a cookie with no expire date
+function createCookie(name, value)
+{
+    document.cookie = `${name}=${value}; path=/`;
+}
+
+function deleteCookie(name)
+{
+    //overwrite a cookie with a past expired date; Therefore, it gets deleted.
+    createCookie(name, null, null);
+}
+
+function getCookieValue(name)
+{
+    const cookiesDecoded = decodeURIComponent(document.cookie);
+    const cookies = cookiesDecoded.split("; "); //creates an array of cookies.
+    let value = null;
+
+    cookies.forEach
+    (
+        cookie =>
+        {
+            if (cookie.indexOf(name) == 0) //if the name of the cookie is in the beginning
+            {
+                value = cookie.substring(name.length + 1); //creates a substring of value (name=value)
+            }
+        }
+    )
+
+    return value;
+}

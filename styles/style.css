@@ -94,8 +94,14 @@ main{
     padding: 40px 160px;
 }
 
+ul{
+    margin: 0px;
+    padding: 0px;
+}
+
 li{
     display: flex;
+
     margin-bottom: 20px;
 
     list-style: none;

@@ -8,3 +8,13 @@
         padding: 40px 80px;
     }
 }
+
+@media screen and (max-width: 384px){
+    header{
+        padding: 100px 12.5px;
+    }
+
+    main{
+        padding: 40px 20px;
+    }
+}
