@@ -24,8 +24,6 @@ else
     }
 }
 
-console.log(document.cookie);
-
 //fires button event when user press enter in input task field
 inputTask.addEventListener("keypress", event => {
     if (event.key == "Enter")
@@ -111,7 +109,7 @@ function createTask()
         btnRemoveTask.type = "submit";
         btnRemoveTask.value = "";
 
-        //remove a certain task from list.
+        //removes a certain task from list.
         btnRemoveTask.addEventListener("click", () => {
             let tasksArray = tasks.split("@");
             let completedTasksArray = completedTasks.split("@");
@@ -148,8 +146,6 @@ function createTask()
             tasks = tasks.replace(newTask.firstChild.nextSibling.textContent + "@", "");
             createCookie("tasks", tasks)
             
-            console.log(document.cookie);
-
             //If the innertHtml is deleted, therefore all the content disappers.
             newTask.innerHTML = "";
             newTask.style.display = "none";
