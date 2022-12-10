@@ -2,26 +2,28 @@ const inputTask = document.querySelector("#ipt-task");
 const btnAdd = document.querySelector("#btn-add");
 const ulTodo = document.querySelector("#ul-todo");
 
-let tasks;
+//get and creates tasks from cookies
+let tasks = getCookieValue("tasks");
 
-if (getCookieValue("tasks") == null)
+if (tasks == null || tasks == "")
 {
-    tasks = "";
-    createCookie("tasks", "");
+    createCookie("tasks", tasks);
 }
 else
-    tasks = getCookieValue("tasks").split("@");
+{
+    let taskArray = tasks.split("@");
+    
+    for (let task of taskArray)
+    {
+        inputTask.value = task;
+        createTask();
+    }
+}
 
 console.log(document.cookie);
 
-//fires button event when user press enter in input task field
-inputTask.addEventListener("keypress", event => {
-    if (event.key == "Enter")
-        btnAdd.click();
-});
-
-//add new task
-btnAdd.addEventListener("click", () => {
+function createTask()
+{
     if (inputTask.value != "")
     {
         const newTask = document.createElement("li");
@@ -33,7 +35,16 @@ btnAdd.addEventListener("click", () => {
 
         inputCheckSpan.type = "checkbox";
         taskSpan.append(inputCheckSpan);
+
         h3Task.textContent = inputTask.value;
+
+        //if it is a new task
+        if (!tasks.includes(inputTask.value))
+        {
+            tasks = tasks != "" ? tasks + inputTask.value + "@" : inputTask.value + "@";
+            createCookie("tasks", tasks);
+        }
+
         btnTask.type = "submit";
         btnTask.value = "";
         
@@ -51,8 +62,13 @@ btnAdd.addEventListener("click", () => {
             }
         });
 
-        //remove a certain task from list. If the innertHtml is deleted, therefore all the contente disappers.
+        //remove a certain task from list.
         btnTask.addEventListener("click", () => {
+            //removes task from cookies
+            tasks = tasks.replace(newTask.firstChild.nextSibling.textContent + "@", "");
+            createCookie("tasks", tasks)
+
+            //If the innertHtml is deleted, therefore all the content disappers.
             newTask.innerHTML = "";
             newTask.style.display = "none";
         });
@@ -67,7 +83,16 @@ btnAdd.addEventListener("click", () => {
         inputTask.value = "";
         inputTask.focus();
     }
+}
+
+//fires button event when user press enter in input task field
+inputTask.addEventListener("keypress", event => {
+    if (event.key == "Enter")
+        btnAdd.click();
 });
+
+//add new task
+btnAdd.addEventListener("click", createTask);
 
 //creates a cookie with no expire date
 function createCookie(name, value)
