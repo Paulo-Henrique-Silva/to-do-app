@@ -1,13 +1,17 @@
 const inputTask = document.querySelector("#ipt-task");
-const btnAdd = document.querySelector("#btn-add");
+const btnAddTask = document.querySelector("#btn-add");
 const ulTodo = document.querySelector("#ul-todo");
 
 //get and creates tasks from cookies
 let tasks = getCookieValue("tasks");
+let completedTasks = getCookieValue("completedTasks");
 
-if (tasks == null || tasks == "")
+//check cookies
+if (tasks == "")
 {
+    completedTasks = "";
     createCookie("tasks", tasks);
+    createCookie("completedTasks", completedTasks);
 }
 else
 {
@@ -22,48 +26,97 @@ else
 
 console.log(document.cookie);
 
+//fires button event when user press enter in input task field
+inputTask.addEventListener("keypress", event => {
+    if (event.key == "Enter")
+        btnAddTask.click();
+});
+
+//add new task
+btnAddTask.addEventListener("click", createTask);
+
 function createTask()
 {
+    //trims user input.
+    inputTask.value = String(inputTask.value).trim();
+
     if (inputTask.value != "")
     {
         const newTask = document.createElement("li");
 
         const taskSpan = document.createElement("span");
         const h3Task = document.createElement("h3");
-        const btnTask = document.createElement("input");
+        const btnRemoveTask = document.createElement("input");
         const inputCheckSpan = document.createElement("input");
-
-        inputCheckSpan.type = "checkbox";
-        taskSpan.append(inputCheckSpan);
-
-        h3Task.textContent = inputTask.value;
 
         //if it is a new task
         if (!tasks.includes(inputTask.value))
         {
             tasks = tasks != "" ? tasks + inputTask.value + "@" : inputTask.value + "@";
-            createCookie("tasks", tasks);
-        }
+            completedTasks = completedTasks != "" ? completedTasks + "false@" : "false@";
 
-        btnTask.type = "submit";
-        btnTask.value = "";
+            createCookie("tasks", tasks);
+            createCookie("completedTasks", completedTasks);
+        }
+        else
+        {
+            //sees if the task is marked as completed
+            let tasksArray = tasks.split("@");
+            let completedTasksArray = completedTasks.split("@");
+            
+            for (let i = 0; i < tasksArray.length; i++)
+            {
+                if (tasksArray[i] == inputTask.value)
+                {
+                    inputCheckSpan.checked = completedTasksArray[i] == "true";
+                    break;
+                }
+            }
+        }
         
-        //if a task is marked as completed
-        inputCheckSpan.addEventListener("change", () => {
-            if (inputCheckSpan.checked)
+        inputCheckSpan.type = "checkbox";
+
+        //changes task marker.
+        inputCheckSpan.addEventListener("change",  () => {
+            let tasksArray = tasks.split("@");
+            let completedTasksArray = completedTasks.split("@");
+          
+            for (let i = 0; i < tasksArray.length; i++)
             {
-                h3Task.className = "finished-task";
-                ulTodo.append(newTask);
+                if (tasksArray[i] == inputCheckSpan.parentElement.parentElement.firstChild.nextSibling.textContent)
+                {
+                    console.log("first: " + completedTasksArray[i]);
+
+                    //changes in array
+                    completedTasksArray[i] = completedTasksArray[i] == "true" ? "false" : "true";
+
+                    console.log(completedTasksArray[i]);
+
+                    //updates completed task
+                    completedTasks = completedTasksArray.reduce((total, element) => {
+                        total += "@";
+
+                        return total + element;
+                    });
+                    break;
+                }
             }
-            else
-            {
-                h3Task.className = "";
-                ulTodo.prepend(newTask);
-            }
+
+            //updates cookies
+            createCookie("completedTasks", completedTasks);
+
+            markTask();
         });
 
+        taskSpan.append(inputCheckSpan);
+        
+        h3Task.textContent = inputTask.value;
+
+        btnRemoveTask.type = "submit";
+        btnRemoveTask.value = "";
+
         //remove a certain task from list.
-        btnTask.addEventListener("click", () => {
+        btnRemoveTask.addEventListener("click", () => {
             //removes task from cookies
             tasks = tasks.replace(newTask.firstChild.nextSibling.textContent + "@", "");
             createCookie("tasks", tasks)
@@ -76,23 +129,28 @@ function createTask()
         //appends elements of task
         newTask.append(taskSpan);
         newTask.append(h3Task);
-        newTask.append(btnTask);
+        newTask.append(btnRemoveTask);
 
-        ulTodo.prepend(newTask);
+        markTask();
+
+        function markTask()
+        {
+            if (inputCheckSpan.checked)
+            {
+                h3Task.className = "finished-task";
+                ulTodo.append(newTask);
+            }
+            else
+            {
+                h3Task.className = "";
+                ulTodo.prepend(newTask);
+            }
+        }
 
         inputTask.value = "";
         inputTask.focus();
     }
 }
-
-//fires button event when user press enter in input task field
-inputTask.addEventListener("keypress", event => {
-    if (event.key == "Enter")
-        btnAdd.click();
-});
-
-//add new task
-btnAdd.addEventListener("click", createTask);
 
 //creates a cookie with no expire date
 function createCookie(name, value)
@@ -100,17 +158,11 @@ function createCookie(name, value)
     document.cookie = `${name}=${value}; path=/`;
 }
 
-function deleteCookie(name)
-{
-    //overwrite a cookie with a past expired date; Therefore, it gets deleted.
-    createCookie(name, null, null);
-}
-
 function getCookieValue(name)
 {
     const cookiesDecoded = decodeURIComponent(document.cookie);
     const cookies = cookiesDecoded.split("; "); //creates an array of cookies.
-    let value = null;
+    let value = "";
 
     cookies.forEach
     (
