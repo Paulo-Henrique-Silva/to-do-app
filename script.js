@@ -85,12 +85,8 @@ function createTask()
             {
                 if (tasksArray[i] == inputCheckSpan.parentElement.parentElement.firstChild.nextSibling.textContent)
                 {
-                    console.log("first: " + completedTasksArray[i]);
-
                     //changes in array
                     completedTasksArray[i] = completedTasksArray[i] == "true" ? "false" : "true";
-
-                    console.log(completedTasksArray[i]);
 
                     //updates completed task
                     completedTasks = completedTasksArray.reduce((total, element) => {
@@ -117,9 +113,42 @@ function createTask()
 
         //remove a certain task from list.
         btnRemoveTask.addEventListener("click", () => {
+            let tasksArray = tasks.split("@");
+            let completedTasksArray = completedTasks.split("@");
+            
+            //if the user wants to delete the only task reamaning
+            if (completedTasksArray.length == 2)
+                completedTasks = "";
+            else
+            {
+                for (let i = 0; i < tasksArray.length; i++)
+                {
+                    if (tasksArray[i] == newTask.firstChild.nextSibling.textContent)
+                    {
+                        completedTasksArray[i] = "";
+
+                        //updates completed task
+                        completedTasksArray = completedTasksArray.filter(taskCompletedText => taskCompletedText != "");
+
+                        completedTasks = completedTasksArray.reduce((total, element) => {
+                            total += "@";
+
+                            return total + element;
+                        });
+
+                        completedTasks += "@"
+                        break;
+                    }
+                }
+            }
+
+            createCookie("completedTasks", completedTasks);
+
             //removes task from cookies
             tasks = tasks.replace(newTask.firstChild.nextSibling.textContent + "@", "");
             createCookie("tasks", tasks)
+            
+            console.log(document.cookie);
 
             //If the innertHtml is deleted, therefore all the content disappers.
             newTask.innerHTML = "";
